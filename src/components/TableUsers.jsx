@@ -9,9 +9,15 @@ import ModalEdit from './ModalEdit'
 import ModalConfirm from './ModalConfirm'
 import down from '../assets/down.svg'
 import up from '../assets/up.svg'
+import plus from '../assets/plus.svg'
+import save from '../assets/save.svg'
+import import_ex from '../assets/import.svg'
 import './TableUsers.scss'
 import _, { includes } from 'lodash'
 import { debounce } from 'lodash'
+import { CSVLink, CSVDownload } from 'react-csv'
+import papa from 'papaparse'
+import { toast } from 'react-toastify'
 function TableUsers() {
   const [listUsers, setListUsers] = useState([])
   const [totalUsers, setTotalUsers] = useState(0)
@@ -24,6 +30,7 @@ function TableUsers() {
   const [sortBy, setSortBy] = useState('asc')
   const [sortField, setSortField] = useState('id')
   const [keyword, setKeyWord] = useState('')
+  const [dataExport, setDataExport] = useState([])
   useEffect(() => {
     getUsers(1)
   }, [])
@@ -67,20 +74,102 @@ function TableUsers() {
       getUsers(1)
     }
   }, 500)
+  const getUsersExport = (event, done) => {
+    let result = []
+    if (listUsers && listUsers.length > 0) {
+      result.push(['Id', 'Email', 'First Name', 'Last Name'])
+      listUsers.map((item, index) => {
+        let arr = []
+        arr[0] = item.id
+        arr[1] = item.email
+        arr[2] = item.first_name
+        arr[3] = item.last_name
+        result.push(arr)
+      })
+      setDataExport(result)
+      done()
+    }
+  }
+  const csvData = [
+    ['firstname', 'lastname', 'email'],
+    ['Ahmed', 'Tomi', 'ah@smthing.co.com'],
+    ['Raed', 'Labes', 'rl@smthing.co.com'],
+    ['Yezzi', 'Min l3b', 'ymin@cocococo.com']
+  ]
+  const handleImportCSV = (event) => {
+    if (event.target && event.target.files && event.target.files[0]) {
+      let file = event.target.files[0]
+      if (file.type !== 'text/csv') {
+        toast.error('Please upload a csv file')
+        return
+      }
+      papa.parse(file, {
+        complete: function (result) {
+          let rawCSV = result.data
+          console.log(rawCSV[0][1], rawCSV[0][2])
+          if (rawCSV.length > 0) {
+            if (rawCSV[0] && rawCSV[0].length === 3) {
+              if (rawCSV[0][0] !== 'email' || rawCSV[0][1] !== 'first_name' || rawCSV[0][2] !== 'last_name') {
+                toast.error('Please upload format Header csv file')
+                return
+              } else {
+                let result = []
+                rawCSV.map((item, index) => {
+                  if (index > 0 && item.length === 3) {
+                    let arr = {}
+                    arr.email = item[0]
+                    arr.first_name = item[1]
+                    arr.last_name = item[2]
+                    result.push(arr)
+                    console.log(result)
+                  }
+                })
+                setListUsers(result)
+              }
+            } else {
+              toast.error('Please format csv file')
+            }
+          } else {
+            toast.error('Not found data csv file')
+          }
+        }
+      })
+    }
+  }
   return (
     <>
       <div className='my-3 d-flex justify-content-between'>
         <span>
           <b>List User</b>
         </span>
-        <button
-          className='btn btn-success'
-          onClick={() => {
-            setIsShowModalAddNew(true)
-          }}
-        >
-          Add new user
-        </button>
+        <div>
+          <label htmlFor='import_ex' className='btn btn-warning'>
+            <img style={{ height: '1.25rem', marginBottom: '4px', marginRight: '6px' }} src={import_ex} />
+            Import
+          </label>
+          <input type='file' hidden id='import_ex' onChange={(event) => handleImportCSV(event)} />
+
+          <CSVLink
+            data={dataExport}
+            filename={'my-file.csv'}
+            target='_blank'
+            className='btn btn-primary m-2'
+            asyncOnClick={true}
+            onClick={getUsersExport}
+          >
+            <img style={{ height: '1.25rem', marginBottom: '4px', marginRight: '6px' }} src={save} />
+            Export
+          </CSVLink>
+          <button
+            className='btn btn-success'
+            onClick={() => {
+              setIsShowModalAddNew(true)
+            }}
+          >
+            <img style={{ height: '1.25rem' }} src={plus} />
+            Add new user
+          </button>
+        </div>
       </div>
       <div>
         <input
@@ -121,7 +210,7 @@ function TableUsers() {
         </thead>
         <tbody>
           {listUsers.map((item, index) => (
-            <tr key={item.id}>
+            <tr key={index}>
               <td>{item.id}</td>
               <td>{item.email}</td>
               <td>{item.first_name}</td>
