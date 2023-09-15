@@ -8,4 +8,7 @@ const fetchPostUser = (user) => {
 const fetchDeleteUser = (id) => {
   return axios.delete(`/api/users/${id}`)
 }
-export { fetchAllUser, fetchPostUser, fetchDeleteUser }
+const loginAPI = (email, password) => {
+  return axios.post('/api/login', { email, password })
+}
+export { fetchAllUser, fetchPostUser, fetchDeleteUser, loginAPI }

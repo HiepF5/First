@@ -1,0 +1,61 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 50%;
+  .password-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+    input {
+      flex: 1;
+    }
+    .password-icon {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      margin-left: -30px;
+    }
+  }
+  .input-email {
+    margin-right: -5px;
+  }
+  .title {
+    text-align: center;
+    font-size: 23px;
+    font-weight: bold;
+    padding-top: 30px;
+  }
+  .text {
+    font-weight: 600;
+    padding-bottom: 3px;
+  }
+  input {
+    padding: 10px;
+    outline: none;
+    margin-bottom: 7px;
+    &:hover {
+      background-color: #dedede;
+      border: 1px solid #dedede;
+    }
+    border-radius: 5px;
+  }
+  button {
+    padding: 10px;
+    border-radius: 3px;
+    outline: none;
+    border: none;
+    background-color: #d32e2e;
+    color: #ffffff;
+  }
+  .back {
+    margin-top: 10px;
+    text-align: center;
+  }
+  img {
+    height: 1.25rem;
+  }
+  .forgot {
+    margin-bottom: 6px;
+  }
+}

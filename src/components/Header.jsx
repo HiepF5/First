@@ -4,12 +4,15 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import { NavLink } from 'react-router-dom'
-
+import vite from '../assets/vite.svg'
 function Header() {
   return (
     <Navbar expand='lg' className='bg-body-tertiary'>
       <Container>
-        <Navbar.Brand>First App</Navbar.Brand>
+        <Navbar.Brand>
+          <img src={vite} style={{ height: '1.25rem' }} />
+          First App
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='me-auto'>

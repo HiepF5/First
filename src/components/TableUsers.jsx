@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Table from 'react-bootstrap/Table'
 import { fetchAllUser } from '../service/UserService'
 import ReactPaginate from 'react-paginate'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import ModalAddNew from './ModalAddNew'
 import ModalEdit from './ModalEdit'
 import ModalConfirm from './ModalConfirm'
@@ -245,18 +243,7 @@ function TableUsers() {
         containerClassName='pagination'
         activeClassName='active'
       />
-      <ToastContainer
-        position='top-right'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='light'
-      />
+
       <ModalAddNew
         show={isShowModalAddNew}
         handleShow={() => setIsShowModalAddNew(false)}
