@@ -6,7 +6,10 @@ import eye_slash from '../assets/eye-slash.svg'
 import { loginAPI } from '../service/UserService'
 import { toast } from 'react-toastify'
 import '../assets/fontawesome-free-6.4.2-web/css/all.min.css'
+import { useHistory } from 'react-router-dom'
+import { useEffect } from 'react'
 function Login() {
+  const history = useHistory()
   const [showPassword, setShowPassword] = useState(false)
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
@@ -14,6 +17,10 @@ function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loadingAPI, setLoadingAPI] = useState(false)
+  useEffect(() => {
+    let token = localStorage.getItem('token')
+    if (token) history.push('/home')
+  }, [])
   const handleLogin = async () => {
     if (!email || !password) {
       toast.error('Email/Password is required!')
@@ -23,6 +30,7 @@ function Login() {
     let res = await loginAPI(email, password)
     if (res && res.token) {
       localStorage.setItem('token', res.token)
+      history.push('/home')
     } else {
       if (res && res.status) {
         toast.error(res.data.error)

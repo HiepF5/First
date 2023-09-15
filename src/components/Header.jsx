@@ -5,7 +5,16 @@ import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import { NavLink } from 'react-router-dom'
 import vite from '../assets/vite.svg'
+import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
+
 function Header() {
+  const history = useHistory()
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    history.push('/home')
+    toast.success('Logout success')
+  }
   return (
     <Navbar expand='lg' className='bg-body-tertiary'>
       <Container>
@@ -28,7 +37,11 @@ function Header() {
               <NavDropdown.Item as={NavLink} to='/login'>
                 Login
               </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to='/logout'>
+              <NavDropdown.Item
+                onClick={() => {
+                  handleLogout()
+                }}
+              >
                 Logout
               </NavDropdown.Item>
             </NavDropdown>
