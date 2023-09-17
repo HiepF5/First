@@ -11,7 +11,6 @@ const ModalEdit = ({ show, handleShow, user }) => {
   const handleEditUser = () => {
     handleShow()
   }
-  console.log(user)
   return (
     <>
       <Modal show={show} onHide={handleShow} backdrop='static' keyboard={false}>

@@ -65,7 +65,7 @@ function Login() {
       </div>
       <div className='forgot'>Forgot Password?</div>
       <button disabled={email && password ? false : true} onClick={handleLogin}>
-        {loadingAPI && <i class='fas fa-sync fa-spin'> </i>} &nbsp; Login
+        {loadingAPI && <i className='fas fa-sync fa-spin'> </i>} &nbsp; Login
       </button>
       <div className='back'>
         <img src={arrow_left} alt='Go back' />

@@ -7,8 +7,11 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Login from './components/Login'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
+import { useSelector } from 'react-redux'
 
 function App() {
+  const dataUserRedux = useSelector((state) => state.user.account)
+  console.log('check>>: ', dataUserRedux)
   return (
     <>
       <Router>
