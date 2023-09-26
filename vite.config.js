@@ -6,7 +6,7 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000
+    port: 3030
   },
   css: {
     devSourcemap: true
@@ -14,7 +14,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@components': path.resolve(__dirname, './src/components'),
+      '@components': path.resolve(__dirname, './src/components')
     }
   }
 })
